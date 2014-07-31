@@ -6,7 +6,9 @@ from bittrex import bittrex
 api = bittrex('key', 'secret')
 
 # Market to trade at
-market = 'BTC-DOGE'
+trade = 'BTC'
+currency = 'DOGE'
+market = '{0}-{1}'.format(trade, currency)
 # Amount of coins to buy
 amount = 100
 # How big of a profit you want to make
@@ -15,21 +17,21 @@ multiplier = 1.1
 # Getting the BTC price for DOGE
 dogesummary = api.getmarketsummary(market)
 dogeprice = dogesummary[0]['Last']
-print 'The price for Dogecoin is {0:.8f} BTC.'.format(dogeprice)
+print 'The price for {0} is {1:.8f} {2}.'.format(currency, dogeprice, trade)
 
 # Buying 100 DOGE for BTC
-print 'Buying {0} DOGE for {1:.8f} BTC.'.format(amount, dogeprice)
-api.buylimit('BTC-DOGE', 100, dogeprice)
+print 'Buying {0} {1} for {2:.8f} {3}.'.format(amount, currency, dogeprice, trade)
+api.buylimit(market, amount, dogeprice)
 
 # Multiplying the price by the multiplier
 dogeprice = round(dogeprice*multiplier, 8)
 
 # Selling 100 DOGE for the  new price
-print 'Selling {0} DOGE for {1:.8f} BTC.'.format(amount, dogeprice)
-api.selllimit('BTC-DOGE', 100, dogeprice)
+print 'Selling {0} {1} for {2:.8f} {3}.'.format(amount, currency, dogeprice, trade)
+api.selllimit(market, amount, dogeprice)
 
 # Gets the DOGE balance
-dogebalance = api.getbalance('DOGE')
-print "Your balance is {0} DOGE.".format(dogebalance['Available'])
+dogebalance = api.getbalance(currency)
+print "Your balance is {0} {1}.".format(dogebalance['Available'], currency)
 
 # For a full list of functions, check out bittrex.py or https://bittrex.com/Home/Api
