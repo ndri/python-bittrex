@@ -1,6 +1,8 @@
 #!/usr/bin/env python
-import urllib
-import urllib2
+#import urllib
+#import urllib2
+from urllib.parse import urlencode
+import urllib.request
 import json
 import time
 import hmac
@@ -26,7 +28,7 @@ class bittrex(object):
         else:
             return 'Something went wrong, sorry.'
         
-        url += method + '?' + urllib.urlencode(values)
+        url += method + '?' + urlencode(values)
         
         if method not in self.public:
             url += '&apikey=' + self.key
@@ -36,8 +38,8 @@ class bittrex(object):
         else:
             headers = {}
         
-        req = urllib2.Request(url, headers=headers)
-        response = json.loads(urllib2.urlopen(req).read())
+        req = urllib.request.Request(url, headers=headers)
+        response = json.loads(urllib.request.urlopen(req).read())
         
         if response["result"]:
             return response["result"]
